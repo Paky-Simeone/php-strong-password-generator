@@ -1,37 +1,6 @@
 <?php 
-  function generate_password($length) {
-
-    $generated_password = "";
-
-    for ($i = 0; $i < $length; $i++) {
-
-      $min_chars = implode(range("a","z"));
-      $max_chars = implode(range("A","Z"));
-      $numbers = range("0","10");
-      $special_chars = "\|!/%&()=?'[]°#@§*^£$><.:,;-_";
-      $all_chars = $min_chars . $max_chars . $numbers .  $special_chars;
-
-      $rand_char_index = rand(0, strlen($all_chars) -1);
-
-      $rand_char = $all_chars[$rand_char_index];
-
-      $generated_password .= $rand_char;
-  }
-  return $generated_password;
-  }
-
-  // $password_length = (int) $_GET["password-length"] ?? 5;
-  $password_length = isset($_GET['password-length']) ? (int) $_GET['password-length'] : 5;
-
-  $form_sent = !empty($_GET);
-
-  if ($form_sent) {
-
-    $generate_password = generate_password($password_length);
-
-    var_dump($password_length);
-
-  }
+ require_once __DIR__ ."./partials/function.php";
+ require_once __DIR__ ."./partials/process.php";
 ?>
 
 <!DOCTYPE html>
@@ -47,10 +16,12 @@
 <form method="GET" action="index.php">
   <div class="mb-3">
     <label for="password-length" class="form-label"> Generatore Password</label>
-    <input name="password-length" type="number" class="form-control" id="password-length" >
+    <input name="password-length" type="number" class="form-control" id="password-length" min="1" max="30">
   </div>
   <input type="submit" class="btn btn-primary" value="Invia" />
 </form>
+<p>La tua password è: <?php echo $final_pass ?></p>
+
 
 </body>
 </html>
